@@ -62,18 +62,15 @@ columns_to_use = [
     "picp",
     "ence",
     "std_variation",
-    #"aggregated_ence_cv",
+    # "aggregated_ence_cv",
 ]
-NOT_USED_MODELS = []#["CatBoost", "ARIMA"]
+NOT_USED_MODELS = []  # ["CatBoost", "ARIMA"]
 
 CAPTION = f"""
 Метрики качества регрессии и калибровки для суррогатной модели GPR на {DATASET_NAME} наборе данных.
 """
 
-translate = {
-    'ЖК': 'jk',
-    'ПК': 'pk'
-}
+translate = {"ЖК": "jk", "ПК": "pk"}
 LABEL = "\label{tab:surrogate_results_full_" + translate[DATASET_NAME] + "}\n"
 
 
@@ -186,15 +183,15 @@ if __name__ == "__main__":
         #     )
 
         #     relevant_data["model"] = surr_model
-        relevant_data["model"] = relevant_data["model"].replace('GPRs, ', '')
-        relevant_data["model"] = relevant_data["model"].replace('t1', 'Sur I')
-        relevant_data["model"] = relevant_data["model"].replace('t2', 'Sur II')
-        relevant_data["model"] = relevant_data["model"].replace('t3', 'Sur III')
+        relevant_data["model"] = relevant_data["model"].replace("GPRs, ", "")
+        relevant_data["model"] = relevant_data["model"].replace("t1", "Sur I")
+        relevant_data["model"] = relevant_data["model"].replace("t2", "Sur II")
+        relevant_data["model"] = relevant_data["model"].replace("t3", "Sur III")
         row_values = []
         for key, value in dict(relevant_data).items():
 
             if key == "RMSE" and DATASET_NAME == "ПК":
-                relevant_data[key] = round(value / 10**3, 3)
+                relevant_data[key] = round(value / 10 ** 3, 3)
             if (
                 key in best_values
                 and value
@@ -204,11 +201,15 @@ if __name__ == "__main__":
 
             else:
                 if key == "future horizon months":
-                    if relevant_data["model"] == 'GPR':
-                        s = '\\multirow{5}{*}{'+str(relevant_data["future horizon months"])+'}'
+                    if relevant_data["model"] == "GPR":
+                        s = (
+                            "\\multirow{5}{*}{"
+                            + str(relevant_data["future horizon months"])
+                            + "}"
+                        )
                         row_values.append(s)
                     else:
-                        row_values.append(' ')
+                        row_values.append(" ")
                 else:
                     row_values.append(str(relevant_data[key]))
 
